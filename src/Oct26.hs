@@ -37,7 +37,7 @@ delete x = foldr (\l ls -> if x/=l then l:ls else ls)[]
 
 filter pred = foldr (\x xs -> if pred x then x:xs else xs) []
 
---forall pred. = 
+forall pred = foldl (\x y -> (pred y) && x) True
 
 
 
