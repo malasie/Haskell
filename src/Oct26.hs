@@ -44,7 +44,12 @@ forall pred = foldl (\x y -> (pred y) && x) True
 ---Zad 14
 ---	Proszę zdefiniować funkcję insertionsort :: (a -> a -> Bool) -> [a] -> [a] przy pomocy kombinatora.
 
+insertionsort pred = foldr (insert pred) []
 
+insert pred x []     = [x]
+insert pred x (y:ys) = if pred x y
+                       then x:y:ys
+                       else y : (insert pred x ys)
 
 
 ---Zad 15
