@@ -1,3 +1,4 @@
+{-# OPTIONS_GHC -Wno-overlapping-patterns #-}
 module Nov02
     (
     ) where
@@ -38,17 +39,28 @@ import Distribution.Simple.Utils (xargs)
 ---  Używając funkcję dz proszę zdefiniować funkcję mergesort oraz mnożenie według Karatsuby.
 
 
-
-dz :: (t -> Bool)
- -> (a -> b)
- -> (t -> [t])
- -> ([b]->b)
- -> t
- -> a
- -> b
-dz test koniec dziel polacz p = if test p then koniec else polacz (map (dz test koniec dziel polacz (dziel p)))
+mergesort :: Ord a => [a] -> [a]
+mergesort p = dz (\x -> length x <= 1)
+               (\x -> x)
+               half
+               merge p
 
 
+dz :: (a -> Bool) -> (a -> b) -> (a -> [a]) -> ([b] -> b) -> a -> b
+dz test koniec dziel polacz p = if test p then koniec p else polacz(map(dz test koniec dziel polacz)(dziel p))
+
+half l = [drop (length l `div` 2) l, take (length l `div` 2) l]
 
 
--- 1) 
+
+merge [x:xs,y:ys] = if xs==[] && ys==[] then (if x < y
+                        then x : y:[]
+                        else y : x:[] )
+                    else (if ys==[] then (if x < y
+                            then  x : y:xs
+                            else y : x:xs)
+                        else (if x < y
+                    then x : (merge [xs,y:ys])
+                    else y : (merge [x:xs,ys])))
+
+                    --funkcja ma lekkie błędy
