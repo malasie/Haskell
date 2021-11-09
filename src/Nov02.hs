@@ -49,8 +49,6 @@ dz :: (t -> Bool)
 dz test koniec dziel polacz p = if test p then koniec else polacz (map (dz test koniec dziel polacz (dziel p)))
 
 
-split (a:as) = [[b|b<-as, b<a], [b|b <-as, b>=a]]
-flatten [a,b]=a++b 
 
 
 -- 1) 
